@@ -3,37 +3,30 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>[translate:सुमन माला]</title>
-  <link rel="stylesheet" href="styles.css" />
+  <title>[translate:सुमनमाला]</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <div id="cover">
+    <h1>[translate:सुमनमाला]</h1>
+    <h3>[translate:श्री देवदत्त आश्रम जाधववाडी]</h3>
+    <button id="enterBtn">प्रवेश करा</button>
+  </div>
 
-  <!-- Header -->
-  <header class="app-header">
-    <h1 class="main-title">[translate:सुमन माला]</h1>
-    <div class="controls">
-      <button id="processBtn" class="btn">[translate:प्रक्रिया सुरू करा]</button>
-      <button id="toggleInputBtn" class="btn ghost">[translate:Raw HTML दाखवा/लपवा]</button>
-      <button id="toggleTOC" class="btn ghost">☰ [translate:अनुक्रमणिका]</button>
-    </div>
-  </header>
+  <div id="mainContent" class="hidden">
+    <nav id="navbar">
+      <h2>नेव्हिगेशन</h2>
+      <ul id="tocList"></ul>
+      <div class="controls">
+        <label for="fontSize">फॉन्ट आकार:</label>
+        <input type="range" id="fontSize" min="14" max="28" value="18" />
+        <button id="toggleTheme">दिवस / रात्र</button>
+      </div>
+    </nav>
 
-  <!-- TOC -->
-  <nav id="toc" class="toc-sidebar hidden" aria-label="[translate:अनुक्रमणिका]">
-    <div class="toc-header">[translate:अनुक्रमणिका]</div>
-    <div id="toc-items"></div>
-    <a href="#" class="toc-link" id="backToTop">[translate:वर परत जा]</a>
-  </nav>
-
-  <!-- Raw HTML input panel -->
-  <section id="rawPanel" class="glass-panel" style="display:none;">
-    <h2 class="section-title">[translate:Raw HTML पेस्ट करा]</h2>
-    <p class="help">[translate:खाली तुमचा कच्चा HTML (कॉपी-पेस्ट) करा. मग 'प्रक्रिया सुरू करा' बटण दाबा.]</p>
-    <textarea id="rawInput" class="raw-input" rows="14" placeholder="[translate:येथे पेस्ट करा]"></textarea>
-
-    <!-- तुमचा कच्चा HTML मजकूर येथे टाका (उदाहरण म्हणून दिले आहे) -->
-    <div id="raw-html-input" style="display:none;">
-<p class="p8"><span class="s7">१ श्रीदत्तात्रेय कवच</span></p>
+    <main id="content" style="font-size: 18px;">
+      <!-- तुमचा raw HTML पॅराग्राफ कोड इथे टाका -->
+      <p class="p8"><span class="s7">१ श्रीदत्तात्रेय कवच</span></p>
 <p class="p3"><span class="s1">तम् वन्दे श्रीगुरुदत्तम्, दत्तदेवम् जगद्गुरुम् ।</span></p>
 <p class="p3"><span class="s1">निष्कलम् निर्गुणम् वन्दे, श्रीदत्तात्रेय ! नमोऽस्तु ते ।।१।।</span></p>
 <p class="p3"><span class="s1">सुरेशैर्वन्दितम् देवम् त्रैलोक्यलोकवन्दितम् ।</span></p>
@@ -2698,20 +2691,8 @@
 <p class="p3"><span class="s1">बंधुंनो झेंडा हा आपुला ।</span></p>
 <p class="p3"><span class="s1">रक्षू या संघटनेने चला ।</span></p>
 <p class="p3"><span class="s1">दामोदर दास म्हणे बापुडा ।।३।।</span></p>
-    </div>
-    <div class="hint">
-      <button id="loadSample" class="btn small">[translate:उदाहरण भरा]</button>
-      <span class="muted">[translate:उदाहरण भरल्यावर तुम्ही तुमचा मजकूर बदलू शकता.]</span>
-    </div>
-  </section>
-
-  <!-- Rendered output -->
-  <main id="output" class="glass-panel">
-    <h2 class="section-title">[translate:रेंडर झालेले अध्याय]</h2>
-    <div id="chapters"></div>
-  </main>
-
-  <footer class="footer">[translate:श्री देवदत्त आश्रम, जाधववाडी] — © 2025</footer>
+    </main>
+  </div>
 
   <script src="script.js"></script>
 </body>
