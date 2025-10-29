@@ -1,179 +1,105 @@
-/* Liquid Glass Effect and General Styles */
+@import url('https://fonts.googleapis.com/css2?family=Mukta&display=swap');
 
 body {
   margin: 0;
-  font-family: "Noto Sans Devanagari", sans-serif;
-  background: rgba(255 255 255 / 0.15);
-  backdrop-filter: blur(12px);
+  font-family: 'Mukta', sans-serif;
+  background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%);
+  height: 100vh;
+  overflow-x: hidden;
   color: #222;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition: background-color 0.5s ease, color 0.5s ease;
 }
 
 body.night {
-  background: rgba(20 20 30 / 0.65);
-  color: #eee;
+  background: linear-gradient(135deg, #151c36 0%, #423466 100%);
+  color: #ddd;
 }
 
-/* Cover Page */
-
-#cover {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+/* Liquid Glass panel base style */
+.glass-panel {
   background: rgba(255 255 255 / 0.15);
-  backdrop-filter: blur(16px);
-  box-shadow: 0 0 30px rgba(255 255 255 / 0.2);
-  text-align: center;
+  backdrop-filter: blur(12px);
+  border-radius: 1rem;
+  box-shadow:
+    0 8px 32px 0 rgba(31, 38, 135, 0.37),
+    inset 0 0 10px rgba(255 255 255 / 0.5);
+  border: 1px solid rgba(255 255 255 / 0.3);
+  position: relative;
+  overflow: hidden;
+  transition: box-shadow 0.3s ease;
 }
 
-#cover h1 {
-  font-size: 5rem;
-  font-weight: bold;
-  font-family: 'Segoe Script', cursive, sans-serif;
-  color: #1a237e;
-  text-shadow: 0 0 15px #a0cfff;
-  margin-bottom: 0.3rem;
-  letter-spacing: 0.05em;
+.glass-panel:hover {
+  box-shadow:
+    0 0 20px cyan,
+    0 0 30px magenta,
+    0 0 40px amber;
 }
 
-#cover h3 {
-  font-size: 2rem;
-  font-weight: 600;
-  color: #3f51b5cc;
-  margin-bottom: 2rem;
-  font-family: 'Segoe Script', cursive, sans-serif;
+/* Animated floating bubbles behind content */
+.bubble {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255 255 255 / 0.1);
+  box-shadow: 0 0 10px rgba(255 255 255 / 0.3);
+  animation: floatUp ease-in-out infinite alternate;
+  opacity: 0.6;
+  pointer-events: none;
+  filter: drop-shadow(0 0 2px #9ff);
+}
+@keyframes floatUp {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(-150%);
+    opacity: 0.6;
+  }
 }
 
-#cover button {
-  font-size: 1.5rem;
-  padding: 0.7rem 1.5rem;
-  border: none;
-  border-radius: 12px;
-  background: rgba(255 255 255 / 0.45);
-  color: #1a237e;
-  cursor: pointer;
-  box-shadow: 0 0 10px #7a97ff;
-  backdrop-filter: blur(8px);
-  transition: background 0.3s ease;
+/* Ripple effect on click */
+.ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255 255 255 / 0.4);
+  animation: rippleAnim 0.6s linear;
+  pointer-events: none;
+  transform: scale(0);
+  z-index: 10;
+}
+@keyframes rippleAnim {
+  to {
+    transform: scale(4);
+    opacity: 0;
+  }
 }
 
-#cover button:hover {
-  background: rgba(255 255 255 / 0.7);
-}
-
-/* Main Content and Navbar */
-
-.hidden {
-  display: none;
-}
-
-#mainContent {
-  display: flex;
-  height: 100vh;
-}
-
-#navbar {
-  width: 280px;
-  background: rgba(255 255 255 / 0.25);
-  backdrop-filter: blur(14px);
-  padding: 1rem 1.2rem;
-  box-shadow: inset 0 0 20px rgba(255 255 255 / 0.2);
-  overflow-y: auto;
-  border-radius: 0 20px 20px 0;
-  box-sizing: border-box;
-}
-
-#navbar h2 {
-  font-size: 1.6rem;
-  font-weight: 700;
-  margin-bottom: 1rem;
-  color: #1a237e;
-}
-
-#tocList {
-  list-style: none;
-  padding-left: 0;
-  margin-bottom: 1.4rem;
-}
-
-#tocList li {
-  margin-bottom: 0.8rem;
-}
-
-#tocList a {
-  color: #1a237e;
-  text-decoration: none;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-#tocList a:hover {
-  text-decoration: underline;
-}
-
-/* Controls */
-
-.controls {
-  border-top: 1px solid rgba(26, 35, 126, 0.4);
-  padding-top: 1rem;
-}
-
-.controls label {
-  font-weight: 600;
-  color: #334;
+/* TOC styles with glow and expand/collapse spring animation */
+#tocList li a {
   display: block;
+  padding: 0.6rem 1rem;
   margin-bottom: 0.4rem;
-}
-
-#fontSize {
-  width: 100%;
-}
-
-#toggleTheme {
-  margin-top: 1rem;
-  width: 100%;
-  padding: 0.6rem;
-  border: none;
-  border-radius: 12px;
-  background: #1a237e;
-  color: white;
-  font-weight: 700;
+  border-radius: 0.6rem;
+  color: #6f4ccf;
+  font-weight: 600;
+  text-decoration: none;
+  background: rgba(255 255 255 / 0.1);
+  backdrop-filter: blur(6px);
+  box-shadow: inset 0 0 6px rgba(255 255 255 / 0.6);
+  border: 2px solid transparent;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: box-shadow 0.4s ease, transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 
-#toggleTheme:hover {
-  background: #334;
-}
-
-/* Content area */
-
-#content {
-  flex-grow: 1;
-  padding: 2rem;
-  overflow-y: auto;
-  line-height: 1.6;
-}
-
-section {
-  margin-bottom: 2rem;
-}
-
-section p {
-  margin: 0.5rem 0;
-}
-
-/* Scrollbar style for main content and navbar */
-
-#content::-webkit-scrollbar,
-#navbar::-webkit-scrollbar {
-  width: 10px;
-}
-
-#content::-webkit-scrollbar-thumb,
-#navbar::-webkit-scrollbar-thumb {
-  background-color: rgba(26, 35, 126, 0.35);
-  border-radius: 10px;
+/* Glowing border on hover and active */
+#tocList li a:hover,
+#tocList li a.active {
+  box-shadow:
+    0 0 8px 2px cyan,
+    0 0 14px 4px magenta,
+    0 0 20px 6px amber;
+  border-color: cyan;
+  outline: none;
+  transform: scale(1.03);
 }
