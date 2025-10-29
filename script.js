@@ -1,53 +1,57 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const mainContent = document.getElementById('mainContent');
-  const cover = document.getElementById('cover');
-  const enterBtn = document.getElementById('enterBtn');
-  const content = document.getElementById('content');
   const tocList = document.getElementById('tocList');
-  const fontSizeControl = document.getElementById('fontSize');
-  const toggleThemeBtn = document.getElementById('toggleTheme');
-
-  enterBtn.onclick = () => {
-    cover.style.display = 'none';
-    mainContent.classList.remove('hidden');
-    generateSections();
-    generateTOC();
-  };
-
-  function generateSections() {
-    const paragraphs = Array.from(content.querySelectorAll('p'));
-    content.innerHTML = ''; // Clear raw content
-
-    const sectionSize = 3;
-    for (let i = 0; i < paragraphs.length; i += sectionSize) {
-      const section = document.createElement('section');
-      section.id = `section${(i / sectionSize) + 1}`;
-      for (let j = i; j < i + sectionSize && j < paragraphs.length; j++) {
-        section.appendChild(paragraphs[j]);
-      }
-      content.appendChild(section);
-    }
-  }
+  const mainContent = document.getElementById('main-content');
 
   function generateTOC() {
+    const sections = mainContent.querySelectorAll('section');
     tocList.innerHTML = '';
-    const sections = content.querySelectorAll('section');
-    sections.forEach((section) => {
-      let title = section.querySelector('p')?.textContent.trim() || 'अनाम विभाग';
+
+    sections.forEach((section, i) => {
       const li = document.createElement('li');
       const a = document.createElement('a');
+      a.textContent = section.querySelector('h2,h3,h4')?.textContent || `विभाग ${i + 1}`;
       a.href = `#${section.id}`;
-      a.textContent = title;
+      a.addEventListener('click', e => {
+        e.preventDefault();
+        document.querySelector(a.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+        setActive(a);
+      });
       li.appendChild(a);
       tocList.appendChild(li);
     });
   }
 
-  fontSizeControl.oninput = () => {
-    content.style.fontSize = fontSizeControl.value + 'px';
-  };
+  function setActive(activeLink) {
+    tocList.querySelectorAll('a').forEach(link => {
+      link.classList.toggle('active', link === activeLink);
+    });
+  }
 
-  toggleThemeBtn.onclick = () => {
-    document.body.classList.toggle('night');
-  };
+  // IntersectionObserver to update active TOC on scroll
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting) {
+        const id = entry.target.id;
+        const activeLink = tocList.querySelector(`a[href="#${id}"]`);
+        if(activeLink) setActive(activeLink);
+      }
+    });
+  }, { threshold: 0.6 });
+
+  document.querySelectorAll('section').forEach(section => observer.observe(section));
+
+  // Ripple effect on TOC click
+  tocList.addEventListener('click', e => {
+    if(e.target.tagName.toLowerCase() === 'a') {
+      const ripple = document.createElement('span');
+      ripple.className = 'ripple';
+      e.target.appendChild(ripple);
+      const rect = e.target.getBoundingClientRect();
+      ripple.style.left = `${e.clientX - rect.left}px`;
+      ripple.style.top = `${e.clientY - rect.top}px`;
+      ripple.addEventListener('animationend', () => ripple.remove());
+    }
+  });
+
+  generateTOC();
 });
