@@ -3,18 +3,30 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>सुमनमाला]</title>
+  <title>सुमनमाला</title>
+  <link href="https://fonts.googleapis.com/css2?family=Mukta&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div id="cover">
-    <h1>[translate:सुमनमाला]</h1>
-    <h3>[translate:श्री देवदत्त आश्रम जाधववाडी]</h3>
+  <!-- Animated background bubbles -->
+  <div class="bubble" style="width:80px; height:80px; left:10%; bottom:20%; animation-duration:9s;"></div>
+  <div class="bubble" style="width:40px; height:40px; left:50%; bottom:10%; animation-duration:7s;"></div>
+  <div class="bubble" style="width:60px; height:60px; left:75%; bottom:30%; animation-duration:12s;"></div>
+
+  <!-- Cover page -->
+  <div id="cover" class="glass-panel">
+    <h1>
+      <p class="p12"><span class="s8">सुमनमाला</span></p>
+    </h1>
+    <h3>
+      <p class="p8"><span class="s7">श्री देवदत्त आश्रम,जाधववाडी</span></p>
+    </h3>
     <button id="enterBtn">प्रवेश करा</button>
   </div>
 
+  <!-- Main content and navbar -->
   <div id="mainContent" class="hidden">
-    <nav id="navbar">
+    <nav id="navbar" class="glass-panel">
       <h2>नेव्हिगेशन</h2>
       <ul id="tocList"></ul>
       <div class="controls">
@@ -24,8 +36,8 @@
       </div>
     </nav>
 
-    <main id="content" style="font-size: 18px;">
-      <!-- तुमचा raw HTML पॅराग्राफ कोड इथे टाका -->
+    <main id="main-content" style="font-size: 18px;">
+      <!-- येथे तुमचा संपूर्ण Marathi raw HTML कंटेंट <p> टॅगसहित कॉपी-पेस्ट करा -->
       <p class="p8"><span class="s7">१ श्रीदत्तात्रेय कवच</span></p>
 <p class="p3"><span class="s1">तम् वन्दे श्रीगुरुदत्तम्, दत्तदेवम् जगद्गुरुम् ।</span></p>
 <p class="p3"><span class="s1">निष्कलम् निर्गुणम् वन्दे, श्रीदत्तात्रेय ! नमोऽस्तु ते ।।१।।</span></p>
