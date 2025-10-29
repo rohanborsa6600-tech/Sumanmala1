@@ -1,44 +1,275 @@
 <!DOCTYPE html>
 <html lang="mr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>सुमनमाला</title>
-  <link href="https://fonts.googleapis.com/css2?family=Mukta&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>सुमनमाला - श्री देवदत्त आश्रम</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Load Marathi Font (Tiro Devanagari) and Vintage Font (Lora) -->
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Tiro+Devanagari+Marathi:wght@400;700&display=swap" rel="stylesheet">
+    
+    <script>
+        // Tailwind configuration
+        tailwind.config = {
+            darkMode: 'class', // Enable dark mode using 'dark' class on <html>
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'], // Fallback
+                        marathi: ['"Tiro Devanagari Marathi"', 'serif'], // Primary Marathi Font
+                        serif: ['Lora', 'serif'], // Vintage body font
+                    },
+                    colors: {
+                        // Light Mode (Default) Palette
+                        'parchment': '#F9F5E3', // Creamy background
+                        'sepia': '#9C6644',      // Dark text/accents
+                        'deep-red': '#8A3232',   // Primary vintage red
+                        // Dark Mode Palette (Defined via CSS variables below)
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* CSS Variables for Theme Management */
+        :root {
+            /* Light Theme Defaults (Vintage) */
+            --bg-page: #F9F5E3; /* Parchment */
+            --bg-card: rgba(255, 255, 255, 0.7); /* Light Glass */
+            --bg-nav: rgba(240, 235, 219, 0.9);
+            --bg-footer: rgba(240, 235, 219, 0.85); /* Slightly less opaque for fixed footer */
+            --text-primary: #333333;
+            --text-secondary: #9C6644; /* Sepia */
+            --accent-glow: rgba(138, 50, 50, 0.9); /* Enhanced Deep Red Glow */
+            --font-size-base: 1.1rem; /* M size base */
+            --current-font-size-px: 17.6; /* Base size in pixels (1.1rem * 16px) */
+        }
+        
+        /* Dark Theme Overrides */
+        .dark {
+            --bg-page: #2C2C33;
+            --bg-card: rgba(50, 50, 60, 0.7); /* Dark Glass */
+            --bg-nav: rgba(35, 35, 40, 0.9);
+            --bg-footer: rgba(35, 35, 40, 0.85);
+            --text-primary: #EBEBEB;
+            --text-secondary: #D4AF37; /* Gold */
+            --accent-glow: rgba(212, 175, 55, 0.9); /* Enhanced Gold Glow */
+        }
+
+        /* 1. Global Styles & Font Sizing */
+        body {
+            background-color: var(--bg-page);
+            color: var(--text-primary);
+            font-family: var(--font-family-serif);
+            transition: background-color 0.5s, color 0.5s;
+            padding-top: 64px; /* Space for sticky navbar */
+            padding-bottom: 50px; 
+        }
+
+        /* 2. Fixed Footer Style */
+        .fixed-footer-glass {
+            background-color: var(--bg-footer);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        /* Set the base font size for the content area based on the variable */
+        .content-container {
+            font-size: var(--font-size-base);
+        }
+
+        /* 3. Vintage Glass Panel Style */
+        .vintage-glass-panel {
+            background-color: var(--bg-card);
+            backdrop-filter: blur(8px) saturate(120%);
+            -webkit-backdrop-filter: blur(8px) saturate(120%);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Soft sepia shadow */
+            transition: all 0.3s ease;
+        }
+        
+        /* 4. Content Styles using Tiro Devanagari Font */
+        .P12 { 
+            font-family: 'Tiro Devanagari Marathi', serif;
+            color: var(--text-secondary); 
+            text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.1);
+            border-bottom: 2px solid var(--text-secondary);
+            padding-bottom: 0.5rem;
+            /* P12 uses fixed rem size for chapter titles */
+            font-size: 2.2rem; 
+        }
+        
+        .P8 { 
+            font-family: 'Tiro Devanagari Marathi', serif;
+            color: var(--deep-red); /* Light Mode: Deep Red */
+            .dark & {
+                color: var(--text-secondary); /* Dark Mode: Gold */
+            }
+            font-weight: 900; 
+            /* P8: Size is 1.5 times the base font size (P3) */
+            font-size: 1.5em; /* IMPORTANT: Uses EM for scaling based on parent container-container */
+            text-align: center; 
+            transition: all 0.3s ease;
+        }
+
+        /* 5. P3 (Content) Styling */
+        .P3 {
+            font-family: 'Tiro Devanagari Marathi', serif; 
+            color: var(--text-primary); /* Keeps the standard primary text color */
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+            text-align: center; /* P3 alignment set to CENTER */
+            hyphens: none; 
+            /* P3: Size is 1 times the base font size (1em) */
+            font-size: 1em; /* IMPORTANT: Uses EM for scaling based on parent container-container */
+            position: relative; /* Required for layout stability */
+        }
+        
+        /* Specific Shlok/Poetry styling for center alignment and better line spacing */
+        .P3.shlok {
+            text-align: center; 
+            margin-bottom: 2rem;
+            line-height: 2.2;
+            font-style: italic;
+        }
+
+        /* 6. TOC Active State (Warm Underline) */
+        .toc-link.active {
+            border-left: 4px solid var(--text-secondary);
+            background-color: var(--bg-card);
+            font-weight: 700;
+        }
+
+        /* 7. TOC Collapse Transition for smoother animation */
+        .toc-chapter-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+        .toc-chapter-content.expanded {
+            max-height: 500px; /* A large value to ensure content fits */
+            transition: max-height 0.5s ease-in;
+        }
+        
+        /* 8. Chapter Title in TOC */
+        .toc-chapter-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .toc-chapter-title .toggle-icon {
+            transition: transform 0.3s;
+        }
+        .toc-chapter-title[data-collapsed="true"] .toggle-icon {
+            transform: rotate(-90deg);
+        }
+
+    </style>
 </head>
-<body>
-  <!-- Animated background bubbles -->
-  <div class="bubble" style="width:80px; height:80px; left:10%; bottom:20%; animation-duration:9s;"></div>
-  <div class="bubble" style="width:40px; height:40px; left:50%; bottom:10%; animation-duration:7s;"></div>
-  <div class="bubble" style="width:60px; height:60px; left:75%; bottom:30%; animation-duration:12s;"></div>
+<body class="font-serif">
 
-  <!-- Cover page -->
-  <div id="cover" class="glass-panel">
-    <h1>
-      <p class="p12"><span class="s8">सुमनमाला</span></p>
-    </h1>
-    <h3>
-      <p class="p8"><span class="s7">श्री देवदत्त आश्रम,जाधववाडी</span></p>
-    </h3>
-    <button id="enterBtn">प्रवेश करा</button>
-  </div>
+    <!-- 1. Sticky Navbar (Vintage Glass Panel) -->
+    <header id="navbar" class="vintage-glass-panel fixed top-0 w-full z-50 shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            
+            <!-- Left: Title & Hamburger -->
+            <div class="flex items-center space-x-4">
+                <!-- Hamburger Menu Icon (Now visible on ALL screens) -->
+                <button id="hamburger-btn" class="text-xl p-2 rounded-full hover:bg-black/10 transition-colors">
+                    <!-- Hamburger SVG Icon -->
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                </button>
+                <div class="text-2xl font-extrabold text-deep-red dark:text-yellow-400 font-marathi">
+                    सुमनमाला
+                </div>
+            </div>
 
-  <!-- Main content and navbar -->
-  <div id="mainContent" class="hidden">
-    <nav id="navbar" class="glass-panel">
-      <h2>नेव्हिगेशन</h2>
-      <ul id="tocList"></ul>
-      <div class="controls">
-        <label for="fontSize">फॉन्ट आकार:</label>
-        <input type="range" id="fontSize" min="14" max="28" value="18" />
-        <button id="toggleTheme">दिवस / रात्र</button>
-      </div>
+            <!-- Center: Search Bar -->
+            <div class="flex-grow max-w-sm mx-4 hidden sm:block">
+                <input type="search" id="search-input" placeholder="शोध घ्या (Search content)..." class="w-full px-4 py-2 text-sm vintage-glass-panel rounded-full focus:outline-none focus:ring-2 focus:ring-deep-red dark:focus:ring-yellow-400 text-gray-800 dark:text-white placeholder-gray-500 dark:placeholder-gray-300 transition" />
+            </div>
+
+            <!-- Right: Controls -->
+            <div class="flex items-center space-x-3">
+                
+                <!-- Font Size Controls (Updated) -->
+                <div class="flex space-x-1 p-1 vintage-glass-panel rounded-lg text-sm text-gray-600 dark:text-gray-300">
+                    <button class="font-size-btn p-1 px-2 rounded hover:bg-black/10 transition" data-size="S">A</button>
+                    <button class="font-size-btn p-1 px-2 rounded bg-black/10 transition" data-size="M">A+</button>
+                    <button class="font-size-btn p-1 px-2 rounded hover:bg-black/10 transition" data-size="L">A++</button>
+                    <!-- New button for unlimited scaling -->
+                    <button class="font-size-btn p-1 px-2 rounded hover:bg-black/10 transition" data-size="L+">A+++</button>
+                </div>
+
+                <!-- Day/Night Toggle -->
+                <button id="theme-toggle" class="text-xl p-2 rounded-full hover:bg-black/10 transition-colors" aria-label="Toggle Theme">
+                    <span id="theme-icon">🌙</span> <!-- Initial Icon -->
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- 2. Interactive TOC Sidebar (Off-canvas, toggled by hamburger) -->
+    <nav id="toc-sidebar" class="vintage-glass-panel fixed top-16 left-0 w-64 h-[calc(100vh-64px)] overflow-y-auto p-6 z-40 transform -translate-x-full transition-transform duration-300 shadow-xl">
+        <h2 class="text-2xl font-bold mb-4 text-sepia dark:text-yellow-300 border-b pb-2 border-sepia/30 dark:border-yellow-300/30">अनुक्रमणिका</h2>
+        
+        <!-- Hide/Show All Chapters Button -->
+        <button id="toggle-all-btn" class="w-full text-center text-sm p-1 mb-4 rounded bg-deep-red/10 dark:bg-yellow-400/10 text-deep-red dark:text-yellow-300 hover:bg-deep-red/20 dark:hover:bg-yellow-400/20 transition-colors">
+            सर्व उपशीर्षके विस्तार करा (Expand All)
+        </button>
+
+        <div id="toc-list" class="space-y-1">
+            <p class="text-sm text-gray-500 dark:text-gray-400">विभाग लोड होत आहेत...</p>
+        </div>
     </nav>
+    
+    <!-- 3. Main Content Area -->
+    <div class="flex-grow max-w-5xl mx-auto md:p-8 pt-4 content-container">
 
-    <main id="main-content" style="font-size: 18px;">
-      <!-- येथे तुमचा संपूर्ण Marathi raw HTML कंटेंट <p> टॅगसहित कॉपी-पेस्ट करा -->
-      <p class="p8"><span class="s7">१ श्रीदत्तात्रेय कवच</span></p>
+        <!-- Cover Page / Title Section -->
+        <section id="cover-page" class="text-center mb-16 px-4">
+            <h1 class="text-6xl md:text-8xl font-marathi font-extrabold mb-4 text-deep-red dark:text-yellow-400 leading-tight">
+                सुमनमाला
+            </h1>
+            <p class="text-3xl font-serif italic text-sepia dark:text-gray-300">
+                श्री देवदत्त आश्रम
+            </p>
+            <div class="mt-8 text-lg text-gray-500 dark:text-gray-400 border-t border-b py-4 my-8">
+                <span class="text-deep-red dark:text-yellow-400">⏱️</span> 
+                वाचनाचा वेळ: <span id="reading-time"></span>
+            </div>
+        </section>
+
+        <!-- Structured Content Containers - EMPTY. Content is injected by JS from CONTENT_DATA -->
+        <main id="main-content" class="space-y-12 px-4 md:px-0">
+            <!-- Content will be generated here by processRawContent() -->
+            <p class="text-center text-gray-500 dark:text-gray-400">Loading content...</p>
+        </main>
+    </div>
+
+    <!-- 4. Fixed Footer Overlay (Sticky Footer) -->
+    <div id="footer-overlay" class="fixed-footer-glass fixed bottom-0 left-0 w-full z-30 shadow-2xl p-2">
+        <div class="max-w-5xl mx-auto flex justify-center items-center">
+            <p class="text-lg font-marathi font-bold text-sepia dark:text-yellow-400" style="text-shadow: 1px 1px 1px var(--accent-glow);">
+                Made with <span class="text-deep-red dark:text-yellow-400">💎</span> by ADX
+            </p>
+        </div>
+    </div>
+    
+    <!-- JavaScript for Interactivity, TOC, Theme, and Font Size -->
+    <script>
+        const htmlElement = document.documentElement;
+        const mainContent = document.getElementById('main-content');
+        const tocList = document.getElementById('toc-list');
+        const sections = []; // Array to store all P12/P8 elements
+        
+        // --- CONTENT DATA (Simulating raw input) ---
+        const CONTENT_DATA = `
+            <p class="p12"><span class="s8">⚜️</span></p>
+<p class="p8"><span class="s7">१ श्रीदत्तात्रेय कवच</span></p>
 <p class="p3"><span class="s1">तम् वन्दे श्रीगुरुदत्तम्, दत्तदेवम् जगद्गुरुम् ।</span></p>
 <p class="p3"><span class="s1">निष्कलम् निर्गुणम् वन्दे, श्रीदत्तात्रेय ! नमोऽस्तु ते ।।१।।</span></p>
 <p class="p3"><span class="s1">सुरेशैर्वन्दितम् देवम् त्रैलोक्यलोकवन्दितम् ।</span></p>
@@ -2703,9 +2934,453 @@
 <p class="p3"><span class="s1">बंधुंनो झेंडा हा आपुला ।</span></p>
 <p class="p3"><span class="s1">रक्षू या संघटनेने चला ।</span></p>
 <p class="p3"><span class="s1">दामोदर दास म्हणे बापुडा ।।३।।</span></p>
-    </main>
-  </div>
 
-  <script src="script.js"></script>
+        `;
+
+        
+        // --- Core Content Processor ---
+        function processRawContent() {
+            // 1. Clean the main content area first
+            mainContent.innerHTML = '';
+            
+            // 2. Parse the raw HTML string
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(CONTENT_DATA, 'text/html');
+            const elements = doc.body.children;
+
+            let currentSection = null;
+            let currentChapterContainer = null;
+            let currentSubtitleContainer = null;
+            let currentShlokLines = [];
+
+            // Removed addClarificationButton helper
+            
+            const finalizeShlok = () => {
+                 if (currentSubtitleContainer && currentShlokLines.length > 0) {
+                    const shlokText = currentShlokLines.join('<br>');
+                    
+                    const p3Element = document.createElement('p');
+                    p3Element.className = 'P3 shlok';
+                    p3Element.setAttribute('data-type', 'P3');
+                    p3Element.innerHTML = shlokText;
+                    
+                    currentSubtitleContainer.appendChild(p3Element);
+                    // Removed addClarificationButton call
+                    
+                    currentShlokLines = []; // Reset for the next shlok/paragraph block
+                }
+            };
+            
+            for (let i = 0; i < elements.length; i++) {
+                const element = elements[i];
+                const rawClass = element.className;
+                let textContent = element.textContent.trim();
+                
+                // Clean text content (remove spans and their classes)
+                textContent = textContent.replace(/<span[^>]*>(.*?)<\/span>/g, '$1').trim();
+                
+                // --- P12: Start of a new Chapter ---
+                if (rawClass.includes('p12')) {
+                    finalizeShlok(); 
+                    
+                    currentSection = document.createElement('section');
+                    currentSection.className = 'mb-8'; 
+                    mainContent.appendChild(currentSection);
+
+                    const p12Element = document.createElement('div');
+                    p12Element.className = 'P12 font-extrabold text-center mb-10';
+                    p12Element.setAttribute('data-type', 'P12');
+                    p12Element.textContent = textContent;
+                    currentSection.appendChild(p12Element);
+
+                    currentChapterContainer = currentSection;
+                    currentSubtitleContainer = null;
+
+                // --- P8: Start of a new Subtitle ---
+                } else if (rawClass.includes('p8') && currentChapterContainer) {
+                    finalizeShlok(); 
+                    
+                    const subtitleWrapper = document.createElement('div');
+                    subtitleWrapper.className = 'vintage-glass-panel rounded-xl p-6 mb-8';
+                    currentChapterContainer.appendChild(subtitleWrapper);
+                    
+                    const p8Element = document.createElement('div');
+                    p8Element.className = 'P8 mb-4';
+                    p8Element.setAttribute('data-type', 'P8');
+                    p8Element.textContent = textContent;
+                    subtitleWrapper.appendChild(p8Element);
+                    
+                    currentSubtitleContainer = subtitleWrapper;
+                
+                // --- P3: Content/Paragraph/Shlok Line ---
+                } else if (rawClass.includes('p3') && currentSubtitleContainer) {
+                    
+                    const prevElement = i > 0 ? elements[i-1] : null;
+                    const prevWasP3 = prevElement && prevElement.className.includes('p3');
+                    const nextElement = i < elements.length - 1 ? elements[i+1] : null;
+                    const nextIsP3 = nextElement && nextElement.className.includes('p3');
+
+                    // If it's a shlok line (multiple P3s following each other)
+                    if (prevWasP3 || nextIsP3) {
+                        currentShlokLines.push(textContent);
+                        if (!nextIsP3) {
+                            finalizeShlok();
+                        }
+                    } else {
+                        // If it's a normal, standalone paragraph
+                        finalizeShlok(); 
+                        const p3Element = document.createElement('p');
+                        p3Element.className = 'P3';
+                        p3Element.setAttribute('data-type', 'P3');
+                        p3Element.textContent = textContent;
+                        currentSubtitleContainer.appendChild(p3Element);
+                        // Removed addClarificationButton call
+                    }
+                }
+            }
+            finalizeShlok(); 
+        }
+
+        // --- Theme Toggle (Day/Night) ---
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeIcon = document.getElementById('theme-icon');
+
+        function toggleTheme() {
+            htmlElement.classList.toggle('dark');
+            const isDarkMode = htmlElement.classList.contains('dark');
+            localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+            themeIcon.textContent = isDarkMode ? '☀️' : '🌙'; // Change icon
+            
+            // Re-apply hover for dynamic text colors
+            document.querySelectorAll('.P3').forEach(p => {
+                p.style.color = getComputedStyle(document.documentElement).getPropertyValue('--text-primary');
+            });
+        }
+
+        // Apply theme on load
+        const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        if (savedTheme === 'dark') {
+            htmlElement.classList.add('dark');
+            themeIcon.textContent = '☀️';
+        } else {
+            themeIcon.textContent = '🌙';
+        }
+
+        themeToggle.addEventListener('click', toggleTheme);
+        
+        // --- Font Size Adjustment (Updated for infinite scaling on L+) ---
+        const BASE_FONT_SIZE = 1.1; // 1.1rem
+        const FONT_INCREMENT = 0.2; // 0.2rem increment
+
+        function applyFontSize(sizeKey) {
+            let baseRem;
+            let currentPx = parseFloat(htmlElement.style.getPropertyValue('--current-font-size-px')) || (BASE_FONT_SIZE * 16);
+            let newPx;
+
+            // Reset all buttons and set active class
+            document.querySelectorAll('.font-size-btn').forEach(btn => btn.classList.remove('bg-black/10'));
+            const activeBtn = document.querySelector(`.font-size-btn[data-size="${sizeKey}"]`);
+            if (activeBtn && sizeKey !== 'L+') activeBtn.classList.add('bg-black/10');
+            
+            if (sizeKey === 'L+') {
+                newPx = currentPx + (FONT_INCREMENT * 16);
+                document.querySelector('.font-size-btn[data-size="L+"]').classList.add('bg-black/10');
+                
+            } else {
+                if (sizeKey === 'S') { baseRem = 0.9; }
+                else if (sizeKey === 'M') { baseRem = 1.1; }
+                else if (sizeKey === 'L') { baseRem = 1.3; }
+                newPx = baseRem * 16;
+            }
+            
+            const newRem = newPx / 16;
+            document.documentElement.style.setProperty('--font-size-base', `${newRem.toFixed(2)}rem`);
+            document.documentElement.style.setProperty('--current-font-size-px', newPx);
+            localStorage.setItem('font-size-px', newPx);
+            localStorage.setItem('font-size-key', sizeKey); 
+        }
+
+        document.querySelectorAll('.font-size-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const size = this.getAttribute('data-size');
+                applyFontSize(size);
+            });
+        });
+
+        // Apply saved font size on load
+        window.addEventListener('DOMContentLoaded', () => {
+            const savedPx = parseFloat(localStorage.getItem('font-size-px'));
+            const savedKey = localStorage.getItem('font-size-key') || 'M';
+
+            if (savedPx) {
+                const savedRem = savedPx / 16;
+                document.documentElement.style.setProperty('--font-size-base', `${savedRem.toFixed(2)}rem`);
+                document.documentElement.style.setProperty('--current-font-size-px', savedPx);
+                
+                document.querySelectorAll('.font-size-btn').forEach(btn => btn.classList.remove('bg-black/10'));
+                const activeBtn = document.querySelector(`.font-size-btn[data-size="${savedKey}"]`);
+                if (activeBtn) activeBtn.classList.add('bg-black/10');
+            } else {
+                applyFontSize('M');
+            }
+        });
+
+
+        // --- Hamburger Menu Toggle (TOC) ---
+        const hamburgerBtn = document.getElementById('hamburger-btn');
+        const tocSidebar = document.getElementById('toc-sidebar');
+        
+        hamburgerBtn.addEventListener('click', () => {
+            tocSidebar.classList.toggle('-translate-x-full');
+            if (!tocSidebar.classList.contains('-translate-x-full')) {
+                document.body.classList.add('overflow-hidden');
+            } else {
+                 document.body.classList.remove('overflow-hidden');
+            }
+        });
+        
+        mainContent.addEventListener('click', () => {
+             if (!tocSidebar.classList.contains('-translate-x-full')) {
+                tocSidebar.classList.add('-translate-x-full');
+                document.body.classList.remove('overflow-hidden');
+             }
+        });
+
+        // --- TOC Collapse/Expand Helper ---
+        function toggleCollapse(titleElement, contentElement, forceExpand = false) {
+            const isCollapsed = titleElement.getAttribute('data-collapsed') === 'true';
+            
+            if (isCollapsed || forceExpand) {
+                contentElement.classList.add('expanded');
+                titleElement.setAttribute('data-collapsed', 'false');
+                titleElement.querySelector('.toggle-icon').style.transform = 'rotate(0deg)';
+                return true; 
+            } else {
+                contentElement.classList.remove('expanded');
+                titleElement.setAttribute('data-collapsed', 'true');
+                titleElement.querySelector('.toggle-icon').style.transform = 'rotate(-90deg)';
+                return false; 
+            }
+        }
+        
+        // --- Toggle All Chapters Functionality ---
+        const toggleAllBtn = document.getElementById('toggle-all-btn');
+
+        function toggleAllChapters() {
+            const allContentDivs = document.querySelectorAll('.toc-chapter-content');
+            const allTitleDivs = document.querySelectorAll('.toc-chapter-title');
+            
+            let shouldExpandAll = false;
+            allTitleDivs.forEach(title => {
+                if (title.getAttribute('data-collapsed') === 'true') {
+                    shouldExpandAll = true;
+                }
+            });
+
+            allTitleDivs.forEach((title, index) => {
+                const content = allContentDivs[index];
+                toggleCollapse(title, content, shouldExpandAll);
+                
+                if (index === allTitleDivs.length - 1) { 
+                    updateToggleAllButton(shouldExpandAll);
+                }
+            });
+            
+            if (allTitleDivs.length === 0) {
+                 updateToggleAllButton(false);
+            }
+        }
+        
+        function updateToggleAllButton(isExpanded) {
+            if (isExpanded) {
+                toggleAllBtn.textContent = 'सर्व उपशीर्षके संकोच करा (Collapse All)';
+            } else {
+                toggleAllBtn.textContent = 'सर्व उपशीर्षके विस्तार करा (Expand All)';
+            }
+        }
+        
+        function isAllExpanded() {
+            const allTitleDivs = document.querySelectorAll('.toc-chapter-title');
+            if (allTitleDivs.length === 0) return false;
+            let allExpanded = true;
+            allTitleDivs.forEach(title => {
+                if (title.getAttribute('data-collapsed') === 'true') {
+                    allExpanded = false;
+                }
+            });
+            return allExpanded;
+        }
+
+        toggleAllBtn.addEventListener('click', toggleAllChapters);
+
+
+        // --- Dynamic TOC Generation & Collapse/Expand ---
+        function generateTOC() {
+            tocList.innerHTML = ''; 
+            const headings = mainContent.querySelectorAll('.P12, .P8');
+            let currentChapterContainer = null;
+            let chapterIndex = 0;
+
+            headings.forEach((heading, index) => {
+                const isChapter = heading.classList.contains('P12');
+                const text = heading.textContent.trim();
+                const id = heading.id || `section-${index}`;
+                heading.id = id;
+
+                sections.push({ id, element: heading });
+
+                if (isChapter) {
+                    const chapterDiv = document.createElement('div');
+                    chapterDiv.className = 'toc-chapter my-2';
+                    chapterDiv.setAttribute('data-chapter-id', `ch-${chapterIndex}`);
+                    
+                    const titleDiv = document.createElement('div');
+                    titleDiv.className = 'toc-chapter-title flex justify-between items-center p-2 rounded transition-colors cursor-pointer font-marathi font-extrabold text-sepia dark:text-yellow-300 text-lg hover:bg-black/5';
+                    titleDiv.setAttribute('data-toc-toggle', `ch-${chapterIndex}`);
+                    titleDiv.setAttribute('data-collapsed', 'true'); 
+
+                    const chapterLink = document.createElement('a');
+                    chapterLink.href = `#${id}`;
+                    chapterLink.textContent = text;
+                    chapterLink.className = 'toc-link block flex-grow pr-2'; 
+
+                    const toggleIcon = document.createElement('span');
+                    toggleIcon.className = 'toggle-icon transform text-sm'; 
+                    toggleIcon.innerHTML = '&#9660;'; 
+                    toggleIcon.style.transform = 'rotate(-90deg)'; 
+
+                    titleDiv.appendChild(chapterLink);
+                    titleDiv.appendChild(toggleIcon);
+                    chapterDiv.appendChild(titleDiv);
+
+                    const contentDiv = document.createElement('div');
+                    contentDiv.className = 'toc-chapter-content ml-4 border-l pl-2 border-white/20 dark:border-white/10';
+                    contentDiv.setAttribute('data-chapter-content', `ch-${chapterIndex}`);
+                    
+                    chapterDiv.appendChild(contentDiv);
+                    tocList.appendChild(chapterDiv);
+                    currentChapterContainer = contentDiv;
+                    chapterIndex++;
+                    
+                    titleDiv.addEventListener('click', (e) => {
+                        if (e.target.tagName !== 'A') {
+                            e.preventDefault();
+                            toggleCollapse(titleDiv, contentDiv);
+                            updateToggleAllButton(isAllExpanded()); 
+                        } else {
+                            tocSidebar.classList.add('-translate-x-full');
+                            document.body.classList.remove('overflow-hidden');
+                        }
+                    });
+
+                } else {
+                    const subtitleAnchor = document.createElement('a');
+                    subtitleAnchor.href = `#${id}`;
+                    subtitleAnchor.textContent = text;
+                    subtitleAnchor.className = 'toc-link block p-2 rounded transition-colors font-serif text-sm hover:bg-black/5';
+                    
+                    subtitleAnchor.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+                        tocSidebar.classList.add('-translate-x-full');
+                        document.body.classList.remove('overflow-hidden');
+                    });
+
+                    if (currentChapterContainer) {
+                        currentChapterContainer.appendChild(subtitleAnchor);
+                    }
+                }
+            });
+            
+            updateToggleAllButton(isAllExpanded());
+        }
+        
+
+        // --- Intersection Observer (Active TOC Highlight) ---
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px 0px -70% 0px', 
+            threshold: 0.0 
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            let activeId = null;
+            for (let i = entries.length - 1; i >= 0; i--) {
+                if (entries[i].isIntersecting) {
+                    activeId = entries[i].target.id;
+                    break;
+                }
+            }
+
+            document.querySelectorAll('.toc-link').forEach(link => link.classList.remove('active'));
+            if (activeId) {
+                const tocLink = tocList.querySelector(`a[href="#${activeId}"]`);
+                if (tocLink) {
+                    tocLink.classList.add('active');
+                    
+                    const parentContent = tocLink.closest('.toc-chapter-content');
+                    if(parentContent && !parentContent.classList.contains('expanded')) {
+                        const chapterTitle = parentContent.previousElementSibling;
+                        toggleCollapse(chapterTitle, parentContent, true); 
+                        updateToggleAllButton(isAllExpanded()); 
+                    }
+                }
+            }
+        }, observerOptions);
+
+
+        // --- Reading Time Counter ---
+        function calculateReadingTime() {
+            const content = mainContent.textContent;
+            const wordCount = content.split(/\s+/).length;
+            const wordsPerMinute = 200; 
+            const minutes = Math.ceil(wordCount / wordsPerMinute);
+            document.getElementById('reading-time').textContent = `${minutes} मिनिटे`;
+        }
+        
+        // --- Content Search / Filter ---
+        const searchInput = document.getElementById('search-input');
+        
+        function filterContent(searchTerm) {
+            searchTerm = searchTerm.toLowerCase().trim();
+
+            document.querySelectorAll('section').forEach(section => {
+                const paragraphs = section.querySelectorAll('.P3');
+                let foundInThisSection = false;
+
+                paragraphs.forEach(p => {
+                    const text = p.textContent.toLowerCase();
+                    if (!searchTerm || text.includes(searchTerm)) {
+                        p.style.display = 'block';
+                        foundInThisSection = true;
+                    } else {
+                        p.style.display = 'none';
+                    }
+                });
+                
+                if (!searchTerm || foundInThisSection) {
+                    section.style.display = 'block';
+                } else {
+                    section.style.display = 'none';
+                }
+            });
+        }
+        
+        searchInput.addEventListener('input', (e) => filterContent(e.target.value));
+
+        // --- Initialize All Functions on Load ---
+        window.onload = function() {
+            // 1. Process the raw content string and inject HTML into main-content
+            processRawContent();
+            
+            // 2. Generate TOC and set up observers on the newly created elements
+            generateTOC();
+            sections.forEach(s => observer.observe(s.element));
+            
+            // 3. Calculate reading time
+            calculateReadingTime();
+        };
+
+    </script>
 </body>
 </html>
